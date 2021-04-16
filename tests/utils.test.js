@@ -26,6 +26,22 @@ it("should say hello", function() {
 // This is called "Red-Green-Refactor"
 // ========================================================
 
+it("should return the area of a rectangle", function() {
+    const area = utils.area(1,2)
+    expect(area).to.be.a("number")
+    expect(area).to.equal(2)
+})
+it("should return the perimeter of a rectangle", function() {
+    const perimeter = utils.perimeter(4,5)
+    expect(perimeter).to.be.a("number")
+    expect(perimeter).to.equal(18)
+})
+it("should return the area of a circle given a radius", function() {
+    const area = utils.circleArea(2)
+    expect(area).to.be.a("number")
+    expect(area).to.equal(12.56)
+})
+
 
 
 
@@ -50,13 +66,40 @@ it("Should create a new (object) Item with name and price", function() {
   expect(item).to.have.property("quantity", 1)
 })
 
-it("Should return an array containing all items in cart")
+it("Should return an array containing all items in cart", function() {
+    utils.addItemToCart({ name:"Banana", price:0.69, quantity: 1 })
+    utils.addItemToCart({ name:"Pickle", price:4.20, quantity: 1 })
+    utils.addItemToCart({ name:"Ham", price:6.66, quantity: 1 })
+    const shoppingCart = utils.getShoppingCart()
+    expect(shoppingCart).to.be.a("Array")
+    expect(shoppingCart).to.deep.include({ name:"Banana", price:0.69, quantity: 1 })
+    expect(shoppingCart).to.deep.include({ name:"Pickle", price:4.20, quantity: 1 })
+    expect(shoppingCart).to.deep.include({ name:"Ham", price:6.66, quantity: 1 })
+})
 
-it("Should add a new item to the shopping cart")
+it("Should add a new item to the shopping cart" , function() {
+    utils.addItemToCart({ name:"Cake", price:420.69, quantity: 666 })
+    const cart = utils.shoppingCart
+    expect(cart).to.be.an("Array")
+    expect(cart).to.deep.include({ name:"Cake", price:420.69, quantity: 666 })
+})
 
-it("Should return the number of items in the cart")
+it("Should return the number of items in the cart", function() {
+    utils.addItemToCart("Banana")
+    utils.addItemToCart("Pickle")
+    const cartLength = utils.getNumItemsInCart()
+    expect(cartLength).to.be.a("Number")
+    expect(cartLength).to.equal(2)
+})
 
-it("Should remove items from cart")
+it("Should remove items from cart", function() {
+    utils.addItemToCart({ name:"Cake", price:420.69, quantity: 666 })
+    let cart = utils.shoppingCart
+    expect(cart).to.deep.include({ name:"Cake", price:420.69, quantity: 666 })
+    utils.removeItemFromCart({ name:"Cake"})
+    cart = utils.shoppingCart
+    expect(cart).to.not.deep.include({ name:"Cake", price:420.69, quantity: 666 })
+})
 
 // ========================================================
 // Stretch Challenges
